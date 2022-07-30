@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_plant_shop/components/slider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,8 +25,34 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  final List plantFilters = [
+    [
+      "All",
+      true,
+    ],
+    ["Indoor", false],
+    ["Outdoor", false],
+    ["Popular", false],
+  ];
+
+  void plantFiltersSelected(int index) {
+    setState(() {
+      // make all the rest of the choice except all false
+
+      for (int i = 0; i < plantFilters.length; i++) {
+        plantFilters[i][1] = false;
+      }
+      plantFilters[index][1] = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +66,10 @@ class Home extends StatelessWidget {
             children: [
               Text('Find your',
                   style: GoogleFonts.poppins(
-                      fontSize: 15, fontWeight: FontWeight.w500)),
+                      fontSize: 18, fontWeight: FontWeight.w500)),
               Text('favorite plants',
                   style: GoogleFonts.poppins(
-                      fontSize: 15, fontWeight: FontWeight.w500)),
+                      fontSize: 18, fontWeight: FontWeight.w500)),
             ],
           ),
           Container(
@@ -52,11 +79,11 @@ class Home extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12)),
               child: Icon(Icons.search))
         ]),
-        SizedBox(height: 12),
+        SizedBox(height: 20),
         Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             decoration: BoxDecoration(
-                color: Colors.grey.shade300,
+                color: Color.fromARGB(255, 212, 242, 213),
                 borderRadius: BorderRadius.circular(12)),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -71,13 +98,33 @@ class Home extends StatelessWidget {
                         Text('02 - 03 July',
                             style: GoogleFonts.poppins(fontSize: 14))
                       ]),
-                  Image.asset(
-                    "images/pexels-photo-12057742.jpeg",
-                    height: 100,
-                    width: 100,
-                    fit: BoxFit.fill,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.asset(
+                      "images/pexels-photo-12057742.jpeg",
+                      height: 70,
+                      width: 70,
+                      fit: BoxFit.fill,
+                    ),
                   )
-                ]))
+                ])),
+
+        // ? Horizontal slider
+
+        Expanded(
+          child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: plantFilters.length,
+              itemBuilder: (context, index) {
+                return SliderView(
+                  option: plantFilters[index][0],
+                  isSelected: plantFilters[index][1],
+                  onTap: () {
+                    plantFiltersSelected(index);
+                  },
+                );
+              }),
+        )
       ]),
     ));
   }

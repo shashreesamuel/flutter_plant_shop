@@ -57,75 +57,112 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Find your',
-                  style: GoogleFonts.poppins(
-                      fontSize: 18, fontWeight: FontWeight.w500)),
-              Text('favorite plants',
-                  style: GoogleFonts.poppins(
-                      fontSize: 18, fontWeight: FontWeight.w500)),
-            ],
-          ),
-          Container(
-              padding: const EdgeInsets.all(6.0),
-              decoration: BoxDecoration(
-                  border: Border.all(width: 2.0, color: Colors.grey.shade300),
-                  borderRadius: BorderRadius.circular(12)),
-              child: Icon(Icons.search))
+        bottomNavigationBar: BottomNavigationBar(items: [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.arrow_back_ios_rounded), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: '')
         ]),
-        SizedBox(height: 20),
-        Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            decoration: BoxDecoration(
-                color: Color.fromARGB(255, 212, 242, 213),
-                borderRadius: BorderRadius.circular(12)),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
+        body: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('30% Off',
-                            style: GoogleFonts.poppins(
-                                fontSize: 14, fontWeight: FontWeight.w500)),
-                        Text('02 - 03 July',
-                            style: GoogleFonts.poppins(fontSize: 14))
-                      ]),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.asset(
-                      "images/pexels-photo-12057742.jpeg",
-                      height: 70,
-                      width: 70,
-                      fit: BoxFit.fill,
-                    ),
-                  )
-                ])),
+                  Text('Find your',
+                      style: GoogleFonts.poppins(
+                          fontSize: 18, fontWeight: FontWeight.w500)),
+                  Text('favorite plants',
+                      style: GoogleFonts.poppins(
+                          fontSize: 18, fontWeight: FontWeight.w500)),
+                ],
+              ),
+              Container(
+                  padding: const EdgeInsets.all(6.0),
+                  decoration: BoxDecoration(
+                      border:
+                          Border.all(width: 2.0, color: Colors.grey.shade300),
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Icon(Icons.search))
+            ]),
+            SizedBox(height: 20),
+            Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 212, 242, 213),
+                    borderRadius: BorderRadius.circular(12)),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('30% Off',
+                                style: GoogleFonts.poppins(
+                                    fontSize: 14, fontWeight: FontWeight.w500)),
+                            Text('02 - 03 July',
+                                style: GoogleFonts.poppins(fontSize: 14))
+                          ]),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.asset(
+                          "images/pexels-photo-12057742.jpeg",
+                          height: 70,
+                          width: 70,
+                          fit: BoxFit.fill,
+                        ),
+                      )
+                    ])),
 
-        // ? Horizontal slider
+            SizedBox(height: 30),
+            // ? Horizontal slider
 
-        Expanded(
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: plantFilters.length,
-              itemBuilder: (context, index) {
-                return SliderView(
-                  option: plantFilters[index][0],
-                  isSelected: plantFilters[index][1],
-                  onTap: () {
-                    plantFiltersSelected(index);
-                  },
-                );
-              }),
-        )
-      ]),
-    ));
+            Container(
+              height: 50,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: plantFilters.length,
+                  itemBuilder: (context, index) {
+                    return SliderView(
+                      option: plantFilters[index][0],
+                      isSelected: plantFilters[index][1],
+                      onTap: () {
+                        plantFiltersSelected(index);
+                      },
+                    );
+                  }),
+            ),
+            TextButton.icon(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SecondRoute()));
+                },
+                icon: Icon(Icons.arrow_forward_ios_outlined),
+                label: Text('Click here to go to the second page'))
+          ]),
+        ));
+  }
+}
+
+class SecondRoute extends StatelessWidget {
+  const SecondRoute({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Second Route')),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text('Go back'),
+        ),
+      ),
+    );
   }
 }

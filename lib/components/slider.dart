@@ -15,16 +15,15 @@ class SliderView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: onTap,
-        child: Row(
-          children: [
-            Text(
-              option,
-              style: TextStyle(
-                color: isSelected ? Colors.orange : Colors.black,
-              ),
-            ),
-          ],
-        ));
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: Text(option,
+            style: TextStyle(
+              fontSize: 16,
+              color: isSelected ? Colors.orange : Colors.black,
+            )),
+      ),
+    );
   }
 }
